@@ -1,3 +1,5 @@
+import copy
+
 DATA = [
     {
         'name': 'Facundo',
@@ -74,11 +76,31 @@ DATA = [
 
 def run():
 
-    all_python_devs =  # Using filter, generate a list with all the python devs
-    all_Platzi_workers =  # Using filter, generate a list with all the Platzi workers
-    adults =  # Using filter, generate a list with all people over 18 years old
-    workers =  # Using map, generate a new list of people with a key 'homeless' with True or False values, if 'organization' have something or not
-    old_people =  # Using map, generate a new list of people with a key 'old' with True or False values, if 'age' is greater than 30 or not
+    all_python_devs =  list(filter(lambda x: x['language'] == 'python', DATA)) # Using filter, generate a list with all the python devs
+    all_Platzi_workers = list(filter(lambda x: x['organization'] == 'Platzi', DATA))   # Using filter, generate a list with all the Platzi workers
+    adults = list(filter(lambda x: x['age'] > 18, DATA )) # Using filter, generate a list with all people over 18 years old
+    
+    data_2 = copy.deepcopy(DATA)
+
+    def homeless(test):
+        if test['organization'] == '':
+            test['homeless'] = True           
+        else:
+            test['homeless'] = False
+
+        return test
+    
+    def age_test(test):
+        if test['age'] > 30:
+            test['old'] = True
+        else: 
+            test['old'] = False
+
+        return test    
+    
+ 
+    workers = list(map(homeless, data_2)) # Using map, generate a new list of people with a key 'homeless' with True or False values, if 'organization' have something or not
+    old_people = list(map(age_test, DATA)) # Using map, generate a new list of people with a key 'old' with True or False values, if 'age' is greater than 30 or not
 
     print('Python devs: ')
     for dev in all_python_devs:
@@ -95,14 +117,23 @@ def run():
         print(adult['name'])
     print('\n\n')
 
-    print(workers)
-    print('\n\n')
+    print('List including homeless: ')
+    for worker in workers:
+        print(worker)
+        print('\n\n')
 
-    print(old_people)
-    print('\n\n')
+       
+    print('List including old people: ')
+    for old in old_people:
+        print(old)
+        print('\n\n')
+
+    
+   
 
     # Remember: when possible, use lambdas
 
 
 if __name__ == '__main__':
+   
     run()
